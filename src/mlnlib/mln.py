@@ -1948,14 +1948,14 @@ class MultiLayerNetwork:
 
             # this is only providing raw counts for all selected layers
             # TODO: it would be more elegant to keep layers!
-            selection_layers = pd.DataFrame(data={'layer' : 1, 'label' : 'count', 'label_long' : 'count_'+convert_A, 'layer' : 'count', 'binary' : 1}, index=[0])
+            selection_layers = pd.DataFrame(data={'layer' : 'count', 'label' : 'count', 'label_long' : 'count_'+convert_A, 'binary' : 1}, index=[0])
             selection_layers_dict = {
-                'binary_to_layer': {1 : 1},
                 'binary_to_layer' : {1 : 'count'},
-                'layer_to_layer' : {1 : 'count'},
-                'layer_to_binary' : {1 : 1},
+                'binary_to_label' : {1 : 'count'},
+                'layer_to_label' : {'count' : 'count'},
                 'layer_to_binary' : {'count' : 1},
-                'layer_to_layer' : {'count' : 1}
+                'label_to_binary' : {'count' : 1},
+                'label_to_layer' : {'count' : 'count'}
             }
 
             f.layers = selection_layers
