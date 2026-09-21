@@ -76,8 +76,6 @@ import os
 if os.getcwd().endswith("src"):
     os.chdir("..")
 
-print(f"We are currently working in the {os.getcwd()} directory.")
-
 class RawCSVtoMLN:
     """
     Convert raw CSV node/edge inputs into an MLN library on disk.
