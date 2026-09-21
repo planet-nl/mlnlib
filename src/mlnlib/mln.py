@@ -485,10 +485,10 @@ class MultiLayerNetwork:
                     raise ValueError("Not a valid codebook file.")        
     
     def get_filtered_network(
-            self, 
-            nodes_selected: Optional[List[Any]] = None, 
-            layers_selected: List[Any] = [], 
-            groups_selected: List[str] = [], 
+            self,
+            nodes_selected: Optional[List[Any]] = None,
+            layers_selected: Optional[List[Any]] = None,
+            groups_selected: Optional[List[str]] = None,
             node_type: str = "label",
             layer_type: str = "label",
             keep_node_alignment: bool = False
@@ -514,9 +514,12 @@ class MultiLayerNetwork:
                 the parent object
         """
 
+        layers_selected = [] if layers_selected is None else list(layers_selected)
+        groups_selected = [] if groups_selected is None else groups_selected
+
         if layer_type not in ["label", "layer"]:
             raise ValueError(f"Invalid layer_type '{layer_type}'. Please choose from 'label' or 'layer'.")
-        
+
         if len(groups_selected)>0:
             if "group" not in self.layers.columns:
                 raise ValueError("No group information found in self.layers. Please add a column called 'group' to self.layers.")
@@ -524,7 +527,7 @@ class MultiLayerNetwork:
             for g in groups_selected:
                 if g not in self.layers["group"].unique().tolist():
                     raise ValueError(f"Invalid group '{g}'. Please choose from {self.layers['group'].unique().tolist()}.")
-                layers_selected += self.layers[self.layers["group"] == g][layer_type].tolist()
+                layers_selected = layers_selected + self.layers[self.layers["group"] == g][layer_type].tolist()
 
         # if there is any node selection, then decrease matrix size and grab the
         # relevant rows from the node attributes table
