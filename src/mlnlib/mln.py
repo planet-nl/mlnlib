@@ -1447,7 +1447,7 @@ class MultiLayerNetwork:
         else:
             return [self._map_id_to_label[elem] for elem in ids]
 
-    def get_degrees(self, selected_nodes: List[Any] = []) -> Dict[Any, int]:
+    def get_degrees(self, selected_nodes: Optional[List[Any]] = None) -> Dict[Any, int]:
         """
         Calculate degree for selected nodes across all layers.
 
@@ -1466,12 +1466,15 @@ class MultiLayerNetwork:
             If you want to calculate degrees for specific layers only, 
             use get_filtered_network() first to select the desired layers.
         """
-        if len(selected_nodes)==0:
+        if not selected_nodes:
             selected_nodes = list(self.nodes["label"])
-        
+
         selected_nodes = [self.to_id(n) for n in selected_nodes]
 
-        return dict(zip([self.to_label(n) for n in selected_nodes], self.A[selected_nodes, :].sign().sum(axis=0).tolist()[0]))
+        # one value per selected row = that node's degree
+        degrees = np.asarray(self.A[selected_nodes, :].sign().sum(axis=1)).ravel()
+
+        return dict(zip([self.to_label(n) for n in selected_nodes], degrees.tolist()))
 
     def get_clustering_coefficient(self, selected_nodes: List[Any] = [], batchsize: int = 100000) -> Dict[Any, float]:
         """
