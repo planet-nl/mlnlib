@@ -5,6 +5,8 @@ tags:
   - network science
   - multilayer networks
   - social networks
+  - social network analysis
+  - complex networks
   - sparse matrices
   - population-scale networks
   - register-based networks
@@ -12,16 +14,16 @@ authors:
   - name: Eszter Bokányi
     corresponding: true
     affiliation: 1, 2
-  - name: Rachel de Jong
+  - name: Rachel G. de Jong
     affiliation: 1
   - name: Yuliia Kazmina
     affiliation: 2
-  - name: Frank Takes
+  - name: Frank W. Takes
     affiliation: 1
 affiliations:
-  - name: PLANET-NL, Leiden Institute of Advanced Computer Science, Leiden University, The Netherlands
+  - name: PLANET-NL, Leiden University, The Netherlands
     index: 1
-  - name: PLANET-NL, Department of Political Science, University of Amsterdam, The Netherlands
+  - name: PLANET-NL, University of Amsterdam, The Netherlands
     index: 2
 date: 25 July 2026
 bibliography: paper.bib
@@ -29,10 +31,10 @@ bibliography: paper.bib
 
 # Summary
 
-Recently, it became possible to study the social network structure of entire societies by deriving social connections from central administrative registers of countries [@bokanyi2023anatomy; @panayiotou2025swedish; @cremers2025temporal]. These networks are often large with tens of millions of nodes and billions of edges, moreover, edges can be of multiple different types represented as layers [@kivela2014multilayer; @boccaletti2014structure]. The size and multilayer nature of these data pose challenges for efficient storage and manipulation, especially in constrained research environments where these privacy-sensitive datasets are usually available.
+Recently, it became possible to study the social network structure of entire societies by deriving social connections from central administrative registers of countries [@bokanyi2023anatomy; @panayiotou2025swedish; @cremers2025temporal]. These networks are often large in size, with tens of millions of nodes and billions of edges. Moreover, edges can be of multiple different types, represented as network layers [@kivela2014multilayer; @boccaletti2014structure]. The size and multilayer nature of these data pose challenges for efficient storage and manipulation, especially in constrained research environments where these privacy-sensitive datasets are usually available for academic research.
 
 
-With `mlnlib`, we provide a Python package for memory-efficient and lightweight storage and manipulation of large multilayer networks. The package enables efficient layer-aware filtering and conversion operations while keeping the user-facing workflow simple and compatible with standard Python data science tools. The package provides the `MultiLayerNetwork` class for loading, querying, aggregating, exporting, and converting multilayer networks, and the `RawCSVtoMLN` class for preparing an intermediate file format for fast loading from raw CSV sources.
+With `mlnlib`, we provide a Python package for memory-efficient and lightweight storage and manipulation of large multilayer networks. The package enables efficient layer-aware filtering and conversion operations to ``slice and dice'' the data, while keeping the user-facing workflow simple and compatible with standard Python data science tools. The package provides the `MultiLayerNetwork` class for loading, querying, aggregating, exporting, and converting multilayer networks, and the `RawCSVtoMLN` class for preparing an intermediate file format for fast loading from raw CSV sources.
 
 # Statement of need
 
