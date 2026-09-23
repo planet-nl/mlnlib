@@ -39,7 +39,7 @@ With `mlnlib`, we provide a Python package for memory-efficient and lightweight 
 # Statement of need
 
 One common strategy for multilayer networks is to store relation types as a generic edge attribute and repeatedly filter edge tables during analysis. This approach is often slow for large data and becomes impractical in constrained research environments where users cannot rely on specialized hardware or software infrastructure (for example, cluster schedulers, high-performance databases, custom compilers, or distributed systems).
-Storing multilayer edges in a large supra-adjacency matrix  is another option, but it can be memory-inefficient when the number of layers is large and the data are sparse.
+Storing multilayer edges in a large supra-adjacency matrix is another option, but it can be memory-inefficient when the number of layers is large and the data are sparse.
 Finally, most graph libraries are not designed to handle large tabular node attributes alongside multilayer edge data. These are common in population-scale social networks where the registers also allow including demographic attributes of people (e.g., information on age, gender, education, or income).
 
 `mlnlib` addresses this gap by focusing on an in-memory representation that is portable and practical in standardized computing environments. The design goals are:
@@ -48,9 +48,9 @@ Finally, most graph libraries are not designed to handle large tabular node attr
 2. Enable fast querying by layer combinations through bitwise operations on encoded edge values.
 3. Support node-based querying using tabular node attributes handled through familiar dataframe workflows.
 4. Interoperate with downstream graph analysis libraries.
-5. Minimizing software or hardware dependencies to ensure broad accessibility and ease of installation.
+5. Minimize software or hardware dependencies to ensure broad accessibility and ease of installation.
 
-This scope is intentionally narrow: `mlnlib` does not aim to replace comprehensive mulilayer graph analytics libraries. Instead, it provides an efficient intermediate representation and data-engineering layer before handoff to packages such as NetworkX and igraph [@networkx; @igraph]. Moreover, it can be easily requested as a standard Python package in managed computing environments, and it does not require specialized infrastructure for installation or execution.
+This scope is intentionally narrow: `mlnlib` does not aim to replace comprehensive multilayer graph analytics libraries. Instead, it provides an efficient intermediate representation and data-engineering layer before handoff to packages such as NetworkX and igraph [@networkx; @igraph]. Moreover, it can be easily requested as a standard Python package in managed computing environments, and it does not require specialized infrastructure for installation or execution.
 
 # State of the field
 
@@ -58,7 +58,7 @@ The multilayer network engineering ecosystem faces significant maturity and scal
 
 General-purpose graph libraries such as NetworkX [@networkx] and igraph [@igraph] are widely used and provide rich algorithmic toolkits. However, multilayer handling or tabular storage of node attributes is not the first priority of these packages, therefore, related operations are not implemented or not efficient due to lack of explicit multilayer support and lack of dataframe integration for node properties.
 
-The library best representing theoretical multilayer network concepts [@kivela2014multilayer] is `pymnet` [@nurmi2024pymnet], which provides a comprehensive set often tools for multilayer network analysis. However, it is not designed for large-scale data and can be memory-inefficient, representing multilayer edges in a supra-adjacency matrix that becomes prohibitive for large and sparse networks. Moreover, it does not support tabular node attributes, which are common in population-scale social networks.
+The library best representing theoretical multilayer network concepts [@kivela2014multilayer] is `pymnet` [@nurmi2024pymnet], which provides a comprehensive set of tools for multilayer network analysis. However, it is not designed for large-scale data and can be memory-inefficient, representing multilayer edges in a supra-adjacency matrix that becomes prohibitive for large and sparse networks. Moreover, it does not support tabular node attributes, which are common in population-scale social networks.
 
 `multinet` (also known as `uunet`) is an R package whose Python API is also available on pypi, and which provides a rich toolkit for standard multilayer network metrics and analysis operations. It supports multilayer workflows including community detection and centrality measures. However, like `pymnet`, `multinet` is primarily oriented toward comprehensive analysis rather than efficient storage and preprocessing. Loading large multilayer networks can be slow, and the package does not support tabular node attributes [@panayiotou2024challenges].
 
@@ -66,7 +66,7 @@ The library best representing theoretical multilayer network concepts [@kivela20
 
 `MuxViz` [@dedomerico2015muxviz] is an interactive visualization and analysis tool designed to facilitate understanding of multilayer network structure and dynamics. It combines network analysis algorithms with advanced visualization techniques to explore both structural properties and dynamical processes on multilayer networks. However, `MuxViz` is primarily designed as an interactive analysis tool rather than as a data engineering solution; it is better suited for exploratory analysis and understanding network structure at a small scale.
 
-`Threadle` [@nordlund2025threadle] is a high-performance multilayer and multimode network data management system designed explicitly for population-scale administrative registers. Built in .NET, it addresses similar data-engineering challenges as `mlnlib`, including memory-efficient storage of multilayer edges, built-in node attribute management, moreover, support for both 1-mode and 2-mode (bipartite) relations. Some design features of Threadle draw on design insights from our `mlnlib` implementation. However, Threadle targets primarily the R ecosystem through its `threadleR` interface.
+`Threadle` [@nordlund2025threadle] is a high-performance multilayer and multimode network data management system designed explicitly for population-scale administrative registers. Built in #C/.NET, it addresses similar data-engineering challenges as `mlnlib`, including memory-efficient storage of multilayer edges, built-in node attribute management, and support for both 1-mode and 2-mode (bipartite) relations. Some design features of Threadle draw on design insights from our `mlnlib` implementation. However, Threadle targets primarily the R ecosystem through its `threadleR` interface.
 
 The gap that `mlnlib` addresses is distinctly different from the strengths of existing tools. While contemporary Python multilayer network libraries focus on analysis, visualization, and algorithmic exploration, they are not designed to efficiently handle the data-engineering challenges posed by population-scale networks with billions of edges, multiple layers, and extensive tabular node attributes, particularly in constrained computing environments where specialized infrastructure is unavailable. The engineering ecosystem struggles with memory-inefficient representations (such as supra-adjacency matrices), slow loading times for large sparse networks, and lack of support for integrating tabular node attributes. `mlnlib` fills this gap by providing a lightweight, portable intermediate representation that combines sparse matrix encoding of multilayer edges with familiar dataframe-based node attribute handling. This design prioritizes efficient data preparation and preprocessing over comprehensive graph algorithms, creating a practical bridge between raw data and established graph analysis libraries in resource-constrained research environments.
 
@@ -74,7 +74,7 @@ The gap that `mlnlib` addresses is distinctly different from the strengths of ex
 
 The core `MultiLayerNetwork` object stores three components:
 
-1. Node table: a stadard `polars` or `pandas` dataframe with at least `label` (unique string identifier) and integer `id` (unique interger identifier from 0 to N-1 where N is the number of nodes) columns, plus optional attributes.
+1. Node table: a standard `polars` or `pandas` dataframe with at least `label` (unique string identifier) and integer `id` (unique integer identifier from 0 to N-1 where N is the number of nodes) columns, plus optional attributes.
 2. Edge matrix: a `scipy.sparse.csr_matrix` where each nonzero integer encodes active layers using powers of two.
 3. Layer table: metadata for each layer including at least `id` (unique integer identifier) and `label` (unique string identifier).
 
