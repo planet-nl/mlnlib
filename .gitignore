@@ -1,4 +1,5 @@
 .*/*
+!.github/*
 __*/*
 src/config_*.json
 venv/
