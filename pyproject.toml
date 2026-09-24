@@ -7,6 +7,9 @@ name = "mlnlib"
 version = "0.3.0"
 authors = [
   { name="Eszter Bokányi", email="e.bokanyi@liacs.leidenuniv.nl" },
+  { name="Rachel G. de Jong" },
+  { name="Yuliia Kazmina" },
+  { name="Frank W. Takes" },
 ]
 description = "Memory-efficient library for loading and working with large unweighted multilayer networks."
 readme = "README.md"

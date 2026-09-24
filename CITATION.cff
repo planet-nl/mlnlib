@@ -1,30 +1,32 @@
 cff-version: 1.2.0
 message: "If you use mlnlib in academic work, please cite it using the metadata below."
-title: "mlnlib"
+title: "mlnlib: A portable and memory-efficient multilayer network toolkit"
 type: software
 version: "0.3.0"
 authors:
-  - family-names: Bokanyi
+  - family-names: Bokányi
     given-names: Eszter
     email: e.bokanyi@liacs.leidenuniv.nl
+    affiliation: "PLANET-NL, Leiden University / University of Amsterdam"
   - family-names: de Jong
-    given-names: Rachel
+    given-names: Rachel G.
+    affiliation: "PLANET-NL, Leiden University"
   - family-names: Kazmina
     given-names: Yuliia
+    affiliation: "PLANET-NL, University of Amsterdam"
+  - family-names: Takes
+    given-names: Frank W.
+    affiliation: "PLANET-NL, Leiden University"
 license: MIT
 repository-code: "https://github.com/planet-nl/mlnlib"
-abstract: "Memory-efficient library for loading and working with large unweighted multilayer networks."
-preferred-citation:
-  type: software
-  title: "POPNET MultiLayerNetwork Python Class"
-  authors:
-    - family-names: Bokanyi
-      given-names: Eszter
-    - family-names: Kazmina
-      given-names: Yuliia
-    - family-names: de Jong
-      given-names: Rachel
-  year: 2023
-  version: "v2.0"
-  doi: 10.5281/zenodo.10838865
-  url: "https://doi.org/10.5281/zenodo.10838865"
+url: "https://planetnl.org"
+abstract: "Memory-efficient library for loading and working with large multilayer networks, developed by the PLANET-NL team (formerly POPNET)."
+keywords:
+  - multilayer networks
+  - network science
+  - sparse matrices
+  - population-scale networks
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.10838865
+    description: "Earlier release: POPNET MultiLayerNetwork Python Class, v2.0 (2023)"

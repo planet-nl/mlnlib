@@ -2,7 +2,7 @@
 Author: Eszter Bokányi
 E-mail: e.bokanyi@liacs.leidenuniv.nl
 
-This file is created in the context of the POPNET/PLANET-NL project:
+This file is created in the context of the PLANET-NL project:
 https://planetnl.org
 
 This file contains the MultiLayerNetwork class, which is the main class of

@@ -1,11 +1,12 @@
 # mlnlib
 
-Memory-efficient Python tools by the POPNET/PLANET-NL team for working with large multilayer networks on machines with limited memory/cores.
+Memory-efficient Python tools by the [PLANET-NL](https://planetnl.org) team (formerly POPNET) for working with large multilayer networks on machines with limited memory/cores.
 
 Authors:
 * Eszter Bokányi
 * Rachel de Jong
 * Yuliia Kazmina
+* Frank W. Takes
 
 Contact: `e.bokanyi@liacs.leidenuniv.nl`
 
@@ -254,4 +255,6 @@ See `test/config.json` for configuration schema.
 
 ## Citation
 
-If you use this library in academic work, please cite the POPNET/PLANET-NL project (https://planetnl.org) and this repository. Citation metadata is available in `CITATION.cff`.
+If you use this library in academic work, please cite this repository and acknowledge the PLANET-NL project (https://planetnl.org). Citation metadata is available in `CITATION.cff`, and GitHub shows it under "Cite this repository" in the sidebar.
+
+A software paper describing `mlnlib` is in preparation (see [`paper/`](paper/)). We will update the citation information once it is published.

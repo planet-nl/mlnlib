@@ -1,9 +1,9 @@
 """
-Author: Eszter Bokanyi, 2023
-E-mail: e.bokanyi@uva.nl
+Author: Eszter Bokányi
+E-mail: e.bokanyi@liacs.leidenuniv.nl
 
-This file is created in the context of the POPNET project:
-https://popnet.io
+This file is created in the context of the PLANET-NL project:
+https://planetnl.org
 
 This script is able to prepare a multilayer network suitable for reading
 with mln.py from a very general set of CSV files.
