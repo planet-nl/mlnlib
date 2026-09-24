@@ -3,7 +3,7 @@ name: Draft PDF
 on:
   push:
     branches:
-      - paper
+      - main
     paths:
       - paper/**
       - .github/workflows/draft-pdf.yml
@@ -15,10 +15,10 @@ jobs:
     name: Paper Draft
 
     steps:
-      - name: Checkout paper branch
+      - name: Checkout main branch
         uses: actions/checkout@v4
         with:
-          ref: paper
+          ref: main
 
       - name: Build draft PDF
         uses: openjournals/openjournals-draft-action@v1.0
