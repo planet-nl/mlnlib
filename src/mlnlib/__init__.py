@@ -9,7 +9,7 @@ Main Classes:
 - MultiLayerNetwork: Main class for multilayer network analysis
 - RawCSVtoMLN: Utility class for converting raw CSV files to MLN format
 
-Authors: Eszter Bokányi, Rachel de Jong, Yuliia Kazmina
+Authors: Eszter Bokányi, Rachel G. de Jong, Yuliia Kazmina, Frank W. Takes
 Contact: e.bokanyi@liacs.leidenuniv.nl
 License: MIT
 """

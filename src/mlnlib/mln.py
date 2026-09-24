@@ -561,8 +561,12 @@ class MultiLayerNetwork:
                     nodes_selected = self.nodes.clone() 
                 else:
                     nodes_selected = self.nodes.copy()
-                # filter down active nodes
-                nodes_selected["active"] &= idx
+                # filter down active nodes (all nodes count as active if there is no "active" column yet)
+                active = nodes_selected["active"].to_numpy() & idx if "active" in nodes_selected.columns else idx
+                if self.use_polars:
+                    nodes_selected = nodes_selected.with_columns(pl.Series("active", active))
+                else:
+                    nodes_selected["active"] = active
             else:
                 # slicing the adjacency matrix
                 A_selected = self.A[idx,:][:,idx]
@@ -1885,11 +1889,14 @@ class MultiLayerNetwork:
                 raise ValueError(f"Column {aggregation_column} not found in self.nodes. Possible candidates are: ", self.nodes.columns)
             
             
+            # all nodes count as active if there is no "active" column
             if self.use_polars:
-                mask = self.nodes["active"] & self.nodes[aggregation_column].is_not_null()
+                active = self.nodes["active"] if "active" in self.nodes.columns else pl.Series([True] * self.N)
+                mask = active & self.nodes[aggregation_column].is_not_null()
                 affil_edgelist = list(zip(self.nodes["label"].filter(mask), self.nodes[aggregation_column].filter(mask)))
             else:
-                mask = self.nodes["active"] & (~pd.isnull(self.nodes[aggregation_column]))
+                active = self.nodes["active"] if "active" in self.nodes.columns else True
+                mask = active & (~pd.isnull(self.nodes[aggregation_column]))
                 affil_edgelist = list(zip(self.nodes["label"][mask], self.nodes[aggregation_column][mask]))
 
             self.create_affiliation_matrix(aggregation_column,affil_edgelist)
