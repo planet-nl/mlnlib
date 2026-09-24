@@ -1,3 +1,7 @@
 .*/*
 __*/*
 src/config_*.json
+venv/
+dist/
+build/
+*.egg-info/
