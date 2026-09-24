@@ -77,7 +77,7 @@ The core `MultiLayerNetwork` object stores three components:
 2. Edge matrix: a `scipy.sparse.csr_matrix` where each nonzero integer encodes active layers using powers of two.
 3. Layer table: metadata for each layer including at least `id` (unique integer identifier) and `label` (unique string identifier).
 
-If layer $l$ is assigned code $2^l$, then an edge present on multiple layers stores the sum of those codes. For example, value $7$ encodes layers $0$, $1$, and $2$ because $7=1+2+4$. Presence of layer $k$ is tested by bit masking, i.e., $(x \& 2^k)=2^k$.
+If layer $l$ is assigned code $2^l$, then an edge present on multiple layers stores the sum of those codes. For example, value $7$ encodes layers $0$, $1$, and $2$ because $7=1+2+4$. Presence of layer $k$ is tested by bit masking, i.e., $(x \& 2^k)=2^k$. Since edge values are stored as unsigned 64-bit integers, a single `MultiLayerNetwork` can hold at most 64 distinct layers, which covers the number of relation types found in typical register-based networks.
 
 This representation supports fast extraction of layer-specific adjacency matrices, combined-layer filtering without scanning string-valued edge attributes, and easy conversion to binary, weighted, or labeled edgelist outputs. The class provides exports to `igraph`, `networkx`, and GraphML, enabling downstream analysis with established graph libraries.
 
@@ -93,7 +93,7 @@ The toolkit has been used in multiple recent studies on population-scale social 
 
 # AI usage disclosure
 
-Generative AI assistance was used during software and manuscript preparation. Specifically, GitHub Copilot was used for code documentation generation, general code tidying, and editing/correcting manuscript text. All AI-assisted outputs were reviewed, edited, and validated by the human authors, who made the core design and research decisions.
+Generative AI assistance was used during software and manuscript preparation. Specifically, GitHub Copilot was used for code documentation generation, general code tidying, and editing/correcting manuscript text. Claude Sonnet 5 was used to reolve git issues. All AI-assisted outputs were reviewed, edited, and validated by the human authors, who made the core design and research decisions.
 
 # Acknowledgements
 
