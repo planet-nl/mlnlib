@@ -25,7 +25,7 @@ affiliations:
     index: 1
   - name: PLANET-NL, University of Amsterdam, The Netherlands
     index: 2
-date: 25 July 2026
+date: 1 October 2026
 bibliography: paper.bib
 ---
 
@@ -37,7 +37,7 @@ With `mlnlib`, we provide a Python package for memory-efficient and lightweight 
 
 # Statement of need
 
-One commonly used strategy for working with multilayer networks is to store relation types as a generic edge attribute and repeatedly filter edge tables during analysis. At the same time, this approach is often slow for large data and becomes impractical in constrained research environments where users cannot rely on specialized hardware or software infrastructure (for example, cluster schedulers, high-performance databases, custom compilers, or distributed systems).
+One commonly used strategy for working with multilayer networks is to store relation types as a generic edge attribute and repeatedly filter edge tables during analysis. However, this approach is often slow for large data and becomes impractical in constrained research environments where users cannot rely on specialized hardware or software infrastructure (for example, cluster schedulers, high-performance databases, custom compilers, or distributed systems).
 
 Storing multilayer edges in a large supra-adjacency matrix is another option, but it can be memory-inefficient when there is a large number of node pairs with an edge in multiple layers between them.
 
@@ -59,7 +59,7 @@ The multilayer network engineering ecosystem faces significant maturity and scal
 
 General-purpose graph libraries such as NetworkX [@networkx] and igraph [@igraph] are widely used and provide rich algorithmic toolkits. However, multilayer handling and tabular storage of node attributes are not the first priority of these packages: they lack explicit multilayer data structures and tabular data integration for node properties. As such, related operations are either not implemented or have to be added as generic edge and node attributes, which is inefficient at scale.
 
-The library best representing theoretical multilayer network concepts [@kivela2014multilayer] is `pymnet` [@nurmi2024pymnet], which provides a comprehensive set of tools for multilayer network analysis. Edges are stored in nested Python dictionaries (one per intra-layer network for multiplex networks), which makes it inefficient if the same edge is present in multiple layers. While these dictionaries only store existing edges, no sparse matrix format is used, and the supra-adjacency matrix can only be requested as a full dense matrix of size $NL \times NL$, where $L$ is the number of layers. Moreover, it does not support tabular node attributes, which are common in population-scale social networks.
+The library best representing theoretical multilayer network concepts [@kivela2014multilayer] is `pymnet` [@nurmi2024pymnet], which provides a comprehensive set of tools for multilayer network analysis. Edges are stored in nested Python dictionaries (one per intra-layer network for multiplex networks), which is inefficient if the same edge is present in multiple layers. While these dictionaries only store existing edges, no sparse matrix format is used, and the supra-adjacency matrix can only be requested as a full dense matrix of size $NL \times NL$, where $N$ is the number of nodes and $L$ is the number of layers. Moreover, it does not support tabular node attributes, which are common in population-scale social networks.
 
 `multinet` (also known as `uunet`) [@magnani2021multinet] is an R package whose Python API is also available on PyPI, and which provides a rich toolkit for standard multilayer network metrics and analysis operations. It supports multilayer workflows including community detection and centrality measures. However, like `pymnet`, `multinet` is primarily oriented toward comprehensive analysis rather than efficient storage and preprocessing. Loading large multilayer networks can be slow, edges are stored as individual objects with several indexes per layer, and node attributes are stored as per-attribute key–value maps rather than tabular dataframes [@panayiotou2024challenges]. On the other hand, this object-based design makes it easy to add or remove individual vertices, edges, and layers after the network has been built.
 
@@ -83,7 +83,7 @@ Once loaded, the core `MultiLayerNetwork` object stores three components:
 
 If layer $l$ is assigned code $2^l$, then an edge present on multiple layers stores the sum of those codes. For example, value $x=7$ encodes layers $0$, $1$, and $2$ because $7=1+2+4$. Whether an edge with stored value $x$ is present on layer $k$ is tested by bit masking, i.e., $(x \& 2^k)=2^k$. Since edge values are stored as unsigned 64-bit integers, a single `MultiLayerNetwork` can hold at most 64 distinct layers, which covers the number of relation types found in typical register-based networks.
 
-This representation supports fast extraction of layer-specific adjacency matrices, combined-layer filtering without scanning string-valued edge attributes, and easy conversion to binary, weighted, or labeled edgelist outputs. Because all layers shared by a node pair are stored in a single integer, querying an edge across any combination of layers requires only one lookup and one bitwise operation, rather than one lookup per layer. The class provides exports to `igraph`, `networkx`, and GraphML, enabling downstream analysis with established graph libraries.
+This representation supports fast extraction of layer-specific adjacency matrices, combined-layer filtering without scanning string-valued edge attributes, and easy conversion to binary, weighted, or labeled edge list outputs. Because all layers shared by a node pair are stored in a single integer, querying an edge across any combination of layers requires only one lookup and one bitwise operation, rather than one lookup per layer. The class provides exports to `igraph`, `networkx`, and GraphML, enabling downstream analysis with established graph libraries.
 
 The compressed sparse row format is optimized for fast reading and slicing, not for modification: adding or removing individual edges or nodes requires rebuilding parts of the underlying arrays and is therefore costly. `mlnlib` is thus designed for the typical scientific use case in which the underlying network is constructed once and then queried and filtered many times, but does not change frequently.
 
@@ -93,11 +93,11 @@ The package was developed in the context of the PLANET-NL (formerly POPNET) proj
 
 By combining sparse encodings for multilayer edges with dataframe-native node attributes, `mlnlib` supports workflows that bridge tabular preprocessing and graph analysis. This is especially useful when researchers need to iterate between node attribute filters and multilayer edge selection before applying downstream methods.
 
-This toolkit has made it possible to undertake multiple recent studies on population-scale social structure, mobility, inequality, migration attitudes, and online-versus-register-based social networks [@bokanyi2026fragmentation; @kazmina2025mobility; @menyhert2025connectivity; @debel2025kinship; @kazmina2024contactthreat; @kazmina2024socioeconomic; @bokanyi2023anatomy]. The population-scale networks containing all family, household, neighbor, work, and school ties of the entire Netherlands between 2009 and 2023 have been made available through the CBS Research Access Environment in the intermediate format directly readable by the `mlnlib` package [@bokanyi2025planetnl].
+This toolkit has made it possible to undertake multiple recent studies on population-scale social structure, mobility, inequality, migration attitudes, and online-versus-register-based social networks [@bokanyi2026fragmentation; @kazmina2025mobility; @menyhert2025connectivity; @debel2025kinship; @kazmina2024contactthreat; @kazmina2024socioeconomic; @bokanyi2023anatomy]. The population-scale networks containing all family, household, neighbor, work, and school ties of the entire Netherlands between 2009 and 2021 have been made available through the Statistics Netherlands (CBS) Remote Access environment in the intermediate format directly readable by the `mlnlib` package [@bokanyi2025planetnl].
 
 # AI usage disclosure
 
-Generative AI assistance was used during software and manuscript preparation. Specifically, GitHub Copilot was used for code documentation generation, general code tidying, and editing/correcting manuscript text. Claude Sonnet 5 was used to resolve GitHub issues, and Claude Opus 5.5 was used for bug fixing, release packaging, and repository maintenance. All AI-assisted outputs were reviewed, edited, and validated by the human authors, who made the core design and research decisions.
+Generative AI assistance was used during software and manuscript preparation. Specifically, GitHub Copilot was used for code documentation, general code tidying, and editing/correcting manuscript text. Claude Sonnet 5.5 was used to resolve GitHub issues, and Claude Opus 5.5 was used for bug fixing, release packaging, and repository maintenance. All AI-assisted outputs were reviewed, edited, and validated by the human authors, who made the design and research decisions.
 
 # Acknowledgements
 
