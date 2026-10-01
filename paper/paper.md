@@ -77,23 +77,23 @@ While existing Python multilayer network libraries focus on analysis, visualizat
 
 Once loaded, the core `MultiLayerNetwork` object stores three components:
 
-1. Node table: a standard `polars` or `pandas` dataframe with a `label` (unique string identifier) and an integer `id` (unique integer identifier from $0$ to $N-1$, where $N$ is the number of nodes) for each node, plus optional node attributes as additional columns.
+1. Node table: a standard `polars` or `pandas` dataframe with a `label` (unique string identifier from the input data) and an integer `id` (unique integer identifier from $0$ to $N-1$, where $N$ is the number of nodes) for each node, plus optional node attributes as additional columns.
 2. Edge matrix: an $N \times N$ `scipy.sparse.csr_matrix`, where each nonzero integer entry encodes the set of layers that the corresponding edge is present in, using powers of two.
-3. Layer table: a `pandas` dataframe with metadata for each layer, including at least `layer` (unique integer identifier), `label` (unique string identifier), and `binary` (the power-of-two code of the layer).
+3. Layer table: a `pandas` dataframe with metadata for each layer, including `layer` (unique integer identifier), `label` (unique string identifier), and `binary` (the unique power-of-two code assigned to that layer by `mlnlib`). An optional `group` column can associate detailed layers with an aggregate category, for example, sibling, parent, and grandparent ties grouped under `family`.
 
 If layer $l$ is assigned code $2^l$, then an edge present on multiple layers stores the sum of those codes. For example, value $x=7$ encodes layers $0$, $1$, and $2$ because $7=1+2+4$. Whether an edge with stored value $x$ is present on layer $k$ is tested by bit masking, i.e., $(x \& 2^k)=2^k$. Since edge values are stored as unsigned 64-bit integers, a single `MultiLayerNetwork` can hold at most 64 distinct layers, which covers the number of relation types found in typical register-based networks.
 
-This representation supports fast extraction of layer-specific adjacency matrices, combined-layer filtering without scanning string-valued edge attributes, and easy conversion to binary, weighted, or labeled edgelist outputs. Because all layers of a node pair are stored in a single integer, querying an edge across any combination of layers requires only one lookup and one bitwise operation, rather than one lookup per layer. The class provides exports to `igraph`, `networkx`, and GraphML, enabling downstream analysis with established graph libraries.
+This representation supports fast extraction of layer-specific adjacency matrices, combined-layer filtering without scanning string-valued edge attributes, and easy conversion to binary, weighted, or labeled edgelist outputs. Because all layers shared by a node pair are stored in a single integer, querying an edge across any combination of layers requires only one lookup and one bitwise operation, rather than one lookup per layer. The class provides exports to `igraph`, `networkx`, and GraphML, enabling downstream analysis with established graph libraries.
 
 The compressed sparse row format is optimized for fast reading and slicing, not for modification: adding or removing individual edges or nodes requires rebuilding parts of the underlying arrays and is therefore costly. `mlnlib` is thus designed for the typical scientific use case in which the underlying network is constructed once and then queried and filtered many times, but does not change frequently.
 
 # Research impact statement
 
-The package was developed in the context of the PLANET-NL (formerly POPNET) project, where population-scale register and social data require repeated multilayer slicing and aggregation. In this context, an important requirement is reproducible execution in constrained computing environments, rather than dependence on specialized infrastructure.
+The package was developed in the context of the PLANET-NL (formerly POPNET) project, where population-scale register and socio-demographic data require repeated multilayer slicing and aggregation. In this context, an important requirement is reproducible execution in constrained computing environments, rather than dependence on specialized infrastructure.
 
 By combining sparse encodings for multilayer edges with dataframe-native node attributes, `mlnlib` supports workflows that bridge tabular preprocessing and graph analysis. This is especially useful when researchers need to iterate between node attribute filters and multilayer edge selection before applying downstream methods.
 
-The toolkit has been used in multiple recent studies on population-scale social structure, mobility, inequality, migration attitudes, and online-versus-register-based social networks [@bokanyi2026fragmentation; @kazmina2025mobility; @menyhert2025connectivity; @debel2025kinship; @kazmina2024contactthreat; @kazmina2024socioeconomic; @bokanyi2023anatomy]. The population-scale networks containing all family, household, neighbor, work, and school ties of the entire Netherlands between 2009 and 2021 have been made available in the intermediate format directly readable by the `mlnlib` package [@bokanyi2025planetnl].
+This toolkit has made it possible to undertake multiple recent studies on population-scale social structure, mobility, inequality, migration attitudes, and online-versus-register-based social networks [@bokanyi2026fragmentation; @kazmina2025mobility; @menyhert2025connectivity; @debel2025kinship; @kazmina2024contactthreat; @kazmina2024socioeconomic; @bokanyi2023anatomy]. The population-scale networks containing all family, household, neighbor, work, and school ties of the entire Netherlands between 2009 and 2023 have been made available through the CBS Research Access Environment in the intermediate format directly readable by the `mlnlib` package [@bokanyi2025planetnl].
 
 # AI usage disclosure
 
@@ -101,6 +101,6 @@ Generative AI assistance was used during software and manuscript preparation. Sp
 
 # Acknowledgements
 
-This software was developed in the context of the PLANET-NL (formerly POPNET) project (https://planetnl.org).
+The research and software development were funded by the Dutch Research Council (NWO) through the SSHOC-NL project.
 
 # References
